@@ -53,6 +53,7 @@ void TSL2591::Disable_tcaselect2() {
 
 // Building block functions
 boolean TSL2591::begin() {
+	Wire.begin();
 	uint8_t id = read8(TSL2591_COMMAND_BIT | TSL2591_REGISTER_DEVICE_ID);
 	if (id != 0x50) {
 		return false;
@@ -297,21 +298,22 @@ void TSL2591::simpleRead(int row, int column)
 	// or 'visible' (difference between the two) channels.
 	// This can take 100-600 milliseconds! Uncomment whichever of the following you want to read
 	  // simpleReadOut sro;
-   //	if(row == 1 || row == 2){
-	  //	if (row ==1){tcaselect1(column);}
-	  //	if (row == 2){tcaselect1(column+4);}
-	  //}
-	  //if(row == 3 || row == 4){
-	  //	if (row ==3){tcaselect2(column);}
-	  //	if (row == 4){tcaselect2(column+4);}
-	  //}
 	Wire.begin();
-	if (row == 1) {
+   	if(row == 1 || row == 2){
+	  	if (row ==1){tcaselect1(column);}
+	  	if (row == 2){tcaselect1(column+4);}
+	  }
+	  if(row == 3 || row == 4){
+	  	if (row ==3){tcaselect2(column);}
+	  	if (row == 4){tcaselect2(column+4);}
+	  }
+	//Wire.begin();
+	/*if (row == 1) {
 		tcaselect1(column);
 	}
 	if (row == 2) {
 		tcaselect2(column);
-	}
+	}*/
 	uint16_t x = getLuminosity(TSL2591_VISIBLE);
 	//uint16_t x = getLuminosity(TSL2591_FULLSPECTRUM);
 	//uint16_t x = getLuminosity(TSL2591_INFRARED);
