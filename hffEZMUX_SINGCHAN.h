@@ -147,7 +147,6 @@ public:
 	/* Student Functions*/
 	void simpleRead(int row, int column);
 	void advancedRead(int row, int column);
-	//void configureSensor(int row, int column);
 	// int** simleReadMatrix();
 
 private:
@@ -166,13 +165,5 @@ private:
 	uint8_t _aAddress;
 
 	boolean _initialized;
-	
-	//// ADDED RB :
-	//i2c_bus _iBus; // Wire or Wire 1
-	//i2c_mode _iMode; // MASTER OR SLAVE MODE
-	//i2c_pins _pins;
-	//i2c_pullup _pullup;
-	//i2c_rate _iRate;
-	//i2c_op_mode _opeMode;
 };
 #endif

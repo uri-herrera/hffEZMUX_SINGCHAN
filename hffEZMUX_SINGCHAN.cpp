@@ -282,22 +282,16 @@ uint8_t TSL2591::getStatus(void) {
 	return x;
 }
 
-//Reffered functions
-
-/*
-THIS IS THE FUNCTIONS STUDENTS MUST INTERACT WITH
-*/
-//struct simpleReadOut{
-//	int ms;
-//	int lum;
-//}
+// User functions
+// STUDENTS WILL HAVE TO INTERACT WITH ONE OR MORE OF THE BELOW FUNCTIONS
 
 void TSL2591::simpleRead(int row, int column)
 {
 	// Simple data read example. Just read the infrared, fullspecrtrum diode 
 	// or 'visible' (difference between the two) channels.
 	// This can take 100-600 milliseconds! Uncomment whichever of the following you want to read
-	  // simpleReadOut sro;
+
+	// Begin I2C bus to access MUXES
 	Wire.begin();
    	if(row == 1 || row == 2){
 	  	if (row ==1){tcaselect1(column);}
@@ -307,33 +301,17 @@ void TSL2591::simpleRead(int row, int column)
 	  	if (row ==3){tcaselect2(column);}
 	  	if (row == 4){tcaselect2(column+4);}
 	  }
-	//Wire.begin();
-	/*if (row == 1) {
-		tcaselect1(column);
-	}
-	if (row == 2) {
-		tcaselect2(column);
-	}*/
 	uint16_t x = getLuminosity(TSL2591_VISIBLE);
 	//uint16_t x = getLuminosity(TSL2591_FULLSPECTRUM);
 	//uint16_t x = getLuminosity(TSL2591_INFRARED);
 
+	// set values within object
 	sro.ms = millis();
 	sro.lum = x;
-	//return sro;
 }
-
-//struct advReadOut{
-//	int ms;
-//	int ir;
-//	int full;
-//	int vis;
-//	int lux;
-//}
 
 void TSL2591::advancedRead(int row, int column)
 {
-	//advReadOut aro;
 	if (row == 1 || row == 2) {
 		if (row == 1) { tcaselect1(column); }
 		if (row == 2) { tcaselect1(column + 4); }
@@ -355,44 +333,6 @@ void TSL2591::advancedRead(int row, int column)
 	aro.lux = calculateLux(full, ir);
 	//return aro.
 }
-//void TSL2591::configureSensor(int row, int column)
-//{
-//    if(row == 1 || row == 2){
-//		if (row ==1){tcaselect1(column);}
-//		if (row == 2){tcaselect1(column+4);}
-//	}
-//	if(row == 3 || row == 4){
-//		if (row ==3){tcaselect2(column);}
-//		if (row == 4){tcaselect2(column+4);}
-//	}
-//  setGain(TSL2591_GAIN_MED);      // 25x gain
-//  setTiming(TSL2591_INTEGRATIONTIME_300MS);
-//
-//  /* Display the gain and integration time for reference sake */  
-//  Serial.println(F("------------------------------------"));
-//  Serial.print  (F("Gain:         "));
-//  tsl2591Gain_t gain = getGain();
-//  switch(gain)
-//  {
-//    case TSL2591_GAIN_LOW:
-//      Serial.println(F("1x (Low)"));
-//      break;
-//    case TSL2591_GAIN_MED:
-//      Serial.println(F("25x (Medium)"));
-//      break;
-//    case TSL2591_GAIN_HIGH:
-//      Serial.println(F("428x (High)"));
-//      break;
-//    case TSL2591_GAIN_MAX:
-//      Serial.println(F("9876x (Max)"));
-//      break;
-//  }
-//  Serial.print  (F("Timing:       "));
-//  Serial.print((getTiming() + 1) * 100, DEC); 
-//  Serial.println(F(" ms"));
-//  Serial.println(F("------------------------------------"));
-//  Serial.println(F(""));
-//}
 
 //int **simleReadMatrix(){
 //	int **simReadMat int *[4][4]
@@ -406,7 +346,7 @@ void TSL2591::advancedRead(int row, int column)
 
 
 
-// Read/write code
+// Helper Functions
 uint8_t TSL2591::read8(uint8_t reg) {
 
 	uint8_t value = 0;
