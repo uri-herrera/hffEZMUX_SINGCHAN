@@ -192,6 +192,11 @@ float TSL2591::calculateLux(uint16_t ch0, uint16_t ch1) {
 }
 
 uint32_t TSL2591::getFullLuminosity(void) {
+	if (!_initialized) {
+		if (!begin()) {
+			return 0;
+		}
+	}
 
 	enable();
 
@@ -301,6 +306,7 @@ void TSL2591::simpleRead(int row, int column)
 	  	if (row ==3){tcaselect2(column);}
 	  	if (row == 4){tcaselect2(column+4);}
 	  }
+	begin();
 	uint16_t x = getLuminosity(TSL2591_VISIBLE);
 	//uint16_t x = getLuminosity(TSL2591_FULLSPECTRUM);
 	//uint16_t x = getLuminosity(TSL2591_INFRARED);
@@ -362,8 +368,8 @@ uint16_t TSL2591::read16(uint8_t reg) {
 
 	uint8_t buffer[2];
 	uint16_t value = 0;
-	Wire.beginTransmission(_aAddress); \
-		Wire.send(reg);
+	Wire.beginTransmission(_aAddress);
+	Wire.send(reg);
 	Wire.endTransmission();
 	Wire.requestFrom(_aAddress, (byte)2);
 	buffer[0] = Wire.readByte();

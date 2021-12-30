@@ -114,16 +114,16 @@ class TSL2591 {
 public:
 	TSL2591();
 	struct simpleReadOut {
-		int ms;
-		int lum;
+		float ms;
+		uint16_t lum;
 	} sro;
 
 	struct advReadOut {
-		int ms;
+		float ms;
 		int ir;
 		int full;
 		int vis;
-		int lux;
+		uint16_t lux;
 	} aro;
 	boolean begin(void);
 	void enable(void);
